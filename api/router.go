@@ -14,7 +14,7 @@ func RunWebserver(ctx context.Context, cancel context.CancelFunc, config config.
 	router := gin.Default()
 	router.GET("/index/:value", controller.GetValueIndex)
 
-	log.Printf("Starting gin server at %s", config.Port)
+	log.Printf("Starting web server at %s", config.Port)
 	go func() {
 		err := router.Run(":" + config.Port)
 		if err != nil {
