@@ -5,6 +5,9 @@ install:
 	go get -u github.com/sirupsen/logrus
 	go get -u github.com/joho/godotenv
 
+install-dev: install
+	go get github.com/stretchr/testify
+
 run:
 	@go run ./cmd/app/main.go > /dev/null
 
