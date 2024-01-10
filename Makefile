@@ -11,3 +11,5 @@ install-dev: install
 run:
 	@go run ./cmd/app/main.go > /dev/null
 
+test:
+	go test ./tests/...
