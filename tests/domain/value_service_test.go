@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"testing"
 
+	test "value-app/tests"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestValueServiceDirectValueMatch(t *testing.T) {
-	svc := getValueService()
+	svc := test.GetValueService()
 	var tests = []struct {
 		value         int
 		expectedValue int
@@ -29,7 +31,7 @@ func TestValueServiceDirectValueMatch(t *testing.T) {
 	}
 }
 func TestValueServiceAdjacentValueMatch(t *testing.T) {
-	svc := getValueService()
+	svc := test.GetValueService()
 	var tests = []struct {
 		name          string
 		value         int
@@ -51,7 +53,7 @@ func TestValueServiceAdjacentValueMatch(t *testing.T) {
 }
 
 func TestValueServiceOnValueNotFound(t *testing.T) {
-	svc := getValueService()
+	svc := test.GetValueService()
 	var tests = []struct {
 		name          string
 		value         int
