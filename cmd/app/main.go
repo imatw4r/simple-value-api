@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"value-app/api"
-	"value-app/config"
+	"value-app/common"
 	"value-app/domain"
 
 	log "github.com/sirupsen/logrus"
@@ -13,12 +13,19 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	appConfig := config.GetConfig()
+	setupTerminationAtSignals(ctx, cancel)
 
-	svc := domain.NewValueService(appConfig.AcceptableValueDiffPercentage)
+	appConfig := common.InitConfig()
+	svc := initService(appConfig)
 
-	log.Infof("Reading source file: %s", appConfig.SourceFilepath)
-	source := domain.NewFileSource(appConfig.SourceFilepath)
+	api.RunWebserver(ctx, cancel, appConfig, svc)
+	<-ctx.Done()
+}
+
+func initService(config *common.GlobalConfig) *domain.ValueService {
+	svc := domain.NewValueService(config.App.AcceptableValueDiffPercentage)
+	log.Infof("Reading source file: %s", config.App.SourceFilepath)
+	source := domain.NewFileSource(config.App.SourceFilepath)
 
 	values, err := source.Load()
 	if err != nil {
@@ -26,12 +33,7 @@ func main() {
 	}
 	err = svc.AddValues(values)
 	if err != nil {
-		log.Error("Failed to load values to the service.")
-		return
+		log.Fatalf("Failed to load values to the service.")
 	}
-
-	log.Infof("Initiating web application")
-	api.RunWebserver(ctx, cancel, appConfig, svc)
-	<-ctx.Done()
-	log.Info("Exiting...")
+	return svc
 }

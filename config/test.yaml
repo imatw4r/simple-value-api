@@ -1,0 +1,7 @@
+app:
+  port: "8080"
+  acceptableValueDiffPercentage: 10
+  sourceFilepath: "test"
+
+logging:
+  logLevel: DEBUG
