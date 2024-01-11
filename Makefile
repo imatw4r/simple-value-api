@@ -12,6 +12,9 @@ install-dev: install
 
 
 run:
+	@if [ ! -f config/dev.yaml ]; then \
+		cp config/example.yaml config/dev.yaml; \
+	fi
 	@go run ./cmd/app/
 
 
