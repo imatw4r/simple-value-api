@@ -26,10 +26,8 @@ func validateValue(valueStr string) (int, error) {
 }
 
 func (vc *ValueController) GetValueIndex(c *gin.Context) {
-	log.Info("Received GetValueIndex Request")
 	valueStr := c.Param("value")
 	valueInt, err := validateValue(valueStr)
-
 	log.Debugf("Looking for value of %d", valueInt)
 
 	if err != nil {
