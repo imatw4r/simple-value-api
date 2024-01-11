@@ -10,23 +10,37 @@ Main technologies/librariers:
 # Development
 Start from [installing](https://go.dev/doc/install) Golang.
 
-Installing dependency
+To install dependencies & run application
+
+```bash
+make run-all
+```
+
+To visit application click [here](http://localhost:8080/index/1000)
+
+
+### Configuration
+> **NOTE:** By default `config/dev.yaml` file is read.
+
+To use another file set environment variable `CONFIG_PATH`.
+
+Relative path can be used from the root folder of the application.
+
+Example:
+```bash
+export CONFIG_PATH=./config/example.yaml
+```
+
+To only install dependencies
 
 ```bash
 make install-dev
 ```
 
-Setting dev configuration
+To only start application
 
 ```bash
-cp config/example.yaml config/dev.yaml
-```
-
-To start application
-
-```bash
-# Start application
-make run
+make run-app
 ```
 
 Go to `http://localhost:8080/index/123` to see API response.
@@ -73,14 +87,11 @@ make test
 I've consciously decided to:
 
 * Not set GIN mode to release - project is just to showcase some skills, not to make it production-ready application
-* Not using wiregen to inject dependencies - as it just adds complexity
-* Not going through building binaries and running application with `go run` directly - same as first point
+* Not use wiregen to inject dependencies - as it just adds complexity
+* Not go through building binaries and running application with `go run` directly - same as first point
 
 
 Also I have to admit that it was fun, small project for me.
 I am aware that my Go skills are not comparable to my 
-Python abilities, but I look at language as a tool that
+Python abilities, but I look at the language as a tool that
 I am learning along the way, and I am more than open for feedback!
-
-Cheers,
-Bartek (:
