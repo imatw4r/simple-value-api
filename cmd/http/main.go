@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"value-app/api"
-	"value-app/common"
-	"value-app/domain"
+	"value-app/config"
+	api "value-app/pkg/api"
+	"value-app/pkg/domain"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -15,14 +15,14 @@ func main() {
 
 	setupTerminationAtSignals(ctx, cancel)
 
-	appConfig := common.InitConfig()
+	appConfig := config.InitConfig()
 	svc := initService(appConfig)
 
 	api.RunWebserver(ctx, cancel, appConfig, svc)
 	<-ctx.Done()
 }
 
-func initService(config *common.GlobalConfig) *domain.ValueService {
+func initService(config *config.GlobalConfig) *domain.ValueService {
 	svc := domain.NewValueService(config.App.AcceptableValueDiffPercentage)
 	log.Infof("Reading source file: %s", config.App.SourceFilepath)
 	source := domain.NewFileSource(config.App.SourceFilepath)

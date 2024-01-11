@@ -1,8 +1,8 @@
 package test_api
 
 import (
-	"value-app/api"
-	"value-app/domain"
+	api "value-app/pkg/api"
+	"value-app/pkg/domain"
 
 	"github.com/gin-gonic/gin"
 )

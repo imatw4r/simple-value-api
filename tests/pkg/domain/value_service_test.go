@@ -4,13 +4,32 @@ import (
 	"fmt"
 	"testing"
 
+	"value-app/pkg/domain"
 	test "value-app/tests"
+	stub "value-app/tests/stubs"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestValueServiceDirectValueMatch(t *testing.T) {
-	svc := test.GetValueService()
+type ValueServiceSuite struct {
+	suite.Suite
+	Service domain.IValueService
+	Source  domain.IValueSource
+}
+
+func (s *ValueServiceSuite) SetupTest() {
+	values := []int{700, 750, 1000, 1050, 1100, 1200, 1900}
+	s.Source = stub.NewValueSource(values)
+	s.Service = test.GetValueService(s.Source)
+}
+
+func TestRunValueServiceSuite(t *testing.T) {
+	suite.Run(t, new(ValueServiceSuite))
+}
+
+func (suite *ValueServiceSuite) TestValueServiceDirectValueMatch() {
+	svc := suite.Service
 	var tests = []struct {
 		value         int
 		expectedValue int
@@ -23,15 +42,15 @@ func TestValueServiceDirectValueMatch(t *testing.T) {
 		{1900, 1900, 6},
 	}
 	for _, tt := range tests {
-		t.Run(fmt.Sprintf("Value %d Index %d", tt.value, tt.expectedIndex), func(t *testing.T) {
+		suite.Suite.T().Run(fmt.Sprintf("Value %d Index %d", tt.value, tt.expectedIndex), func(t *testing.T) {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Got Index %d, Expected %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Got Value %d, Expected %d", result.Value, tt.expectedValue))
 		})
 	}
 }
-func TestValueServiceAdjacentValueMatch(t *testing.T) {
-	svc := test.GetValueService()
+func (suite *ValueServiceSuite) TestValueServiceAdjacentValueMatch() {
+	svc := suite.Service
 	var tests = []struct {
 		name          string
 		value         int
@@ -44,7 +63,7 @@ func TestValueServiceAdjacentValueMatch(t *testing.T) {
 		{"Match with edge right value", 1800, 1900, 6},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+		suite.Suite.T().Run(tt.name, func(t *testing.T) {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Receive Index: %d, Expected: %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Receive Value: %d, Expected: %d", result.Value, tt.expectedValue))
@@ -52,8 +71,8 @@ func TestValueServiceAdjacentValueMatch(t *testing.T) {
 	}
 }
 
-func TestValueServiceOnValueNotFound(t *testing.T) {
-	svc := test.GetValueService()
+func (suite *ValueServiceSuite) TestValueServiceOnValueNotFound() {
+	svc := suite.Service
 	var tests = []struct {
 		name          string
 		value         int
@@ -65,7 +84,7 @@ func TestValueServiceOnValueNotFound(t *testing.T) {
 		{"Value much bigger than any existing", 1000000, -1, -1},
 	}
 	for _, tt := range tests {
-		t.Run(fmt.Sprintf(tt.name, tt.value, tt.expectedIndex), func(t *testing.T) {
+		suite.Suite.T().Run(fmt.Sprintf(tt.name, tt.value, tt.expectedIndex), func(t *testing.T) {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Receive Index %d, Expected %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Receive Value %d, Expected %d", result.Value, tt.expectedValue))

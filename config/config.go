@@ -1,4 +1,4 @@
-package common
+package config
 
 type LoggerConfig struct {
 	LogLevel string `yaml:"logLevel"`

@@ -1,11 +1,13 @@
 package test_stubs
 
-type InMemorySource struct{}
-
-func (ms *InMemorySource) Load() ([]int, error) {
-	return []int{700, 750, 1000, 1050, 1100, 1200, 1900}, nil
+type InMemorySource struct {
+	Values []int
 }
 
-func NewValueSource() *InMemorySource {
-	return &InMemorySource{}
+func (ms *InMemorySource) Load() ([]int, error) {
+	return ms.Values, nil
+}
+
+func NewValueSource(values []int) *InMemorySource {
+	return &InMemorySource{Values: values}
 }
