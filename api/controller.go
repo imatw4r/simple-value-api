@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"value-app/domain"
@@ -17,50 +18,69 @@ type ValueController struct {
 	svc domain.IValueService
 }
 
-func validateValue(valueStr string) (int, error) {
-	value, err := strconv.Atoi(valueStr)
-	if err != nil {
-		return -1, err
-	}
-	return value, nil
-}
-
 func (vc *ValueController) GetValueIndex(c *gin.Context) {
-	valueStr := c.Param("value")
-	valueInt, err := validateValue(valueStr)
-	log.Debugf("Looking for value of %d", valueInt)
+	var request GetValueIndexRequest
+	var response GetValueIndexResponse
+
+	if err := c.ShouldBindUri(&request); err != nil {
+		errorMsg := err.Error()
+		log.Warn(errorMsg)
+		response = GetValueIndexResponse{
+			Index:        -1,
+			Value:        -1,
+			ErrorMessage: errorMsg,
+		}
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	log.Infof("Received request with Value %s", request.Value)
+
+	valueInt, err := convertToInt(request.Value)
 
 	if err != nil {
-		log.Warn("Value is not a valid integer")
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid value provided"})
+		errorMsg := fmt.Sprintf("Value %s is not a valid integer", request.Value)
+		log.Warn(errorMsg)
+		response = GetValueIndexResponse{
+			Index:        -1,
+			Value:        -1,
+			ErrorMessage: errorMsg,
+		}
+		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
 	result, err := vc.svc.IndexOf(valueInt)
 
 	if err != nil {
-		log.Warn("Failed to retrieve an index")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve the index"})
+		errorMsg := "Failed to retrieve an index"
+		log.Warn(errorMsg)
+		response = GetValueIndexResponse{
+			Index:        -1,
+			Value:        -1,
+			ErrorMessage: errorMsg,
+		}
+		c.JSON(http.StatusInternalServerError, response)
 		return
 	}
 
 	if result.Index == -1 {
-		log.Info("Value index not found")
-		response := gin.H{
-			"index":               result.Index,
-			"corresponding_value": result.Value,
-			"message":             "NotFound",
+		errorMsg := "Index not found"
+		log.Info(errorMsg)
+		response = GetValueIndexResponse{
+			Index:        -1,
+			Value:        valueInt,
+			ErrorMessage: errorMsg,
 		}
 		c.JSON(http.StatusOK, response)
 		return
 	}
 
-	log.Info("Value index found")
-	log.Debugf("Value: %d Index: %d", result.Value, result.Index)
-	response := gin.H{
-		"index":               result.Index,
-		"corresponding_value": result.Value,
-		"message":             "Success",
+	log.Info("Index found")
+	response = GetValueIndexResponse{
+		Value:        result.Value,
+		Index:        result.Index,
+		ErrorMessage: "",
 	}
 
 	c.JSON(http.StatusOK, response)
@@ -70,4 +90,12 @@ func NewValueController(svc domain.IValueService) *ValueController {
 	return &ValueController{
 		svc: svc,
 	}
+}
+
+func convertToInt(valueStr string) (int, error) {
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		return -1, err
+	}
+	return value, nil
 }
