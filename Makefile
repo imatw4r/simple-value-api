@@ -11,10 +11,13 @@ install-dev: install
 	go get github.com/stretchr/testify
 
 
-run:
+run-all: install-dev
 	@if [ ! -f config/dev.yaml ]; then \
 		cp config/example.yaml config/dev.yaml; \
 	fi
+	$(MAKE) run-app
+
+run-app:
 	@go run ./cmd/http/
 
 
