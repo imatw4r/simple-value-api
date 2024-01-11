@@ -23,9 +23,11 @@ func isAcceptableValue(initialValue int, givenValue int, acceptableDiffPercentag
 // IndexOf returns an Index of given Value.
 // If the Value is not found, two adjacent Values are checked.
 // If any of two Values is within acceptableDiffPercentage`
-// from the given Value, its Index is returned instead,
-// otherwise Index -1 is returned.
-// Left Value Index has higher priority over right Value.
+// from the given Value, its Index is returned instead.
+// If none value is found, -1 value is returned as an Index.
+//
+// Left value Index has higher priority over right value Index
+// when both values are withing acceptable bounds.
 func (s *ValueService) IndexOf(value int) (Result, error) {
 	index := sort.Search(len(s.values), func(i int) bool { return s.values[i] >= value })
 	log.Debugf("Processing Value: %d", value)
