@@ -9,12 +9,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func RunWebserver(ctx context.Context, cancel context.CancelFunc, config *common.GlobalConfig, svc domain.IValueService) {
-	log.Infof("Initiating web application...")
+func CreateApp(svc domain.IValueService) *gin.Engine {
 	controller := NewValueController(svc)
 	router := gin.Default()
 	router.GET("/index/:value", controller.GetValueIndex)
+	return router
+}
 
+func RunWebserver(ctx context.Context, cancel context.CancelFunc, config *common.GlobalConfig, svc domain.IValueService) {
+	log.Infof("Initiating web application...")
+	router := CreateApp(svc)
 	log.Infof("Starting web server at %s", config.App.Port)
 	go func() {
 		err := router.Run(":" + config.App.Port)
