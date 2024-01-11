@@ -26,7 +26,7 @@ Go to `http://localhost:8080/index/123` to see API response.
 
 ## Testing
 
-> **_NOTE:_**  Ensure that .env file is used to store configuration. I
+> **NOTE:** Tests load config from `config/test.yaml` file.
 
 To execute tests
 
@@ -35,13 +35,14 @@ To execute tests
 make test
 ```
 
-
 # Information
 
-## Functionality
+## Author Notes
+I am consciously omiting things like:
 
-- [x] Get Index by Value
-
+* Setting up GIN release mode
+* Using wiregen to inject dependencies
+* Writing HTTP application tests
 
 ## Folder Structure
 
@@ -59,3 +60,8 @@ make test
 ├── go.mod
 └── go.sum
 ```
+
+
+## Functionality
+
+- [x] Get Index by Value
