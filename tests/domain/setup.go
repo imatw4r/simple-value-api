@@ -9,9 +9,9 @@ import (
 func getValueService() *domain.ValueService {
 	config := test.GetTestConfig()
 
-	valueSource := stub.NewMemoryValueSource()
+	valueSource := stub.NewValueSource()
 	values, _ := valueSource.Load()
-	svc := domain.NewValueService(config.AcceptableValueDiffPercentage)
+	svc := domain.NewValueService(config.App.AcceptableValueDiffPercentage)
 	svc.AddValues(values)
 	return svc
 }

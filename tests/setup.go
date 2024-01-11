@@ -1,14 +1,9 @@
 package tests
 
 import (
-	"value-app/config"
+	"value-app/common"
 )
 
-func GetTestConfig() config.AppConfig {
-	return config.AppConfig{
-		Port:                          "8080",
-		LogLevel:                      "DEBUG",
-		AcceptableValueDiffPercentage: 10,
-		SourceFilepath:                "test.in",
-	}
+func GetTestConfig() *common.GlobalConfig {
+	return common.InitConfig()
 }

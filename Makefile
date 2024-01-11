@@ -1,9 +1,10 @@
 install:
-	go get -u github.com/antonfisher/nested-logrus-formatter
-	go get -u github.com/gin-gonic/gin
-	go get -u golang.org/x/crypto
-	go get -u github.com/sirupsen/logrus
-	go get -u github.com/joho/godotenv
+	go get github.com/antonfisher/nested-logrus-formatter
+	go get github.com/gin-gonic/gin
+	go get golang.org/x/crypto
+	go get github.com/sirupsen/logrus
+	go get github.com/joho/godotenv
+	go get gopkg.in/yaml.v2
 
 install-dev: install
 	go get github.com/stretchr/testify
@@ -12,4 +13,4 @@ run:
 	@go run ./cmd/app/main.go > /dev/null
 
 test:
-	go test ./tests/...
+	@CONFIG_PATH=../../config/test.yaml go test ./tests/...

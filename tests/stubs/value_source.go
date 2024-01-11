@@ -1,11 +1,11 @@
 package test_stubs
 
-type MemorySource struct{}
+type InMemorySource struct{}
 
-func (ms *MemorySource) Load() ([]int, error) {
-	return []int{10, 100, 120, 140, 190, 300}, nil
+func (ms *InMemorySource) Load() ([]int, error) {
+	return []int{700, 750, 1000, 1050, 1100, 1200, 1900}, nil
 }
 
-func NewMemoryValueSource() *MemorySource {
-	return &MemorySource{}
+func NewValueSource() *InMemorySource {
+	return &InMemorySource{}
 }
