@@ -1,20 +1,17 @@
 package tests
 
 import (
-	"value-app/common"
-	"value-app/domain"
-	stub "value-app/tests/stubs"
+	"value-app/config"
+	"value-app/pkg/domain"
 )
 
-func getTestConfig() *common.GlobalConfig {
-	return common.InitConfig()
+func getTestConfig() *config.GlobalConfig {
+	return config.InitConfig()
 }
 
-func GetValueService() *domain.ValueService {
+func GetValueService(source domain.IValueSource) *domain.ValueService {
 	config := getTestConfig()
-
-	valueSource := stub.NewValueSource()
-	values, _ := valueSource.Load()
+	values, _ := source.Load()
 	svc := domain.NewValueService(config.App.AcceptableValueDiffPercentage)
 	svc.AddValues(values)
 	return svc

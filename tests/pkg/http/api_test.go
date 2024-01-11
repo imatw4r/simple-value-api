@@ -6,15 +6,15 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	api "value-app/api"
-	"value-app/domain"
+	api "value-app/pkg/api"
+	"value-app/pkg/domain"
 
 	test "value-app/tests"
+	stub "value-app/tests/stubs"
 
 	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/suite"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 type ValueAPISuite struct {
@@ -22,11 +22,14 @@ type ValueAPISuite struct {
 	Router   *gin.Engine
 	Recorder *httptest.ResponseRecorder
 	Service  domain.IValueService
+	Source   domain.IValueSource
 }
 
 func (s *ValueAPISuite) SetupTest() {
+	values := []int{700, 750, 1000, 1050, 1100, 1200, 1900}
+	s.Source = stub.NewValueSource(values)
 	s.Recorder = httptest.NewRecorder()
-	s.Service = test.GetValueService()
+	s.Service = test.GetValueService(s.Source)
 	s.Router = getTestClient(s.Service)
 }
 

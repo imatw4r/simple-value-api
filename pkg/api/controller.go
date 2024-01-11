@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"value-app/domain"
+	"value-app/pkg/domain"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"

@@ -15,8 +15,8 @@ run:
 	@if [ ! -f config/dev.yaml ]; then \
 		cp config/example.yaml config/dev.yaml; \
 	fi
-	@go run ./cmd/app/
+	@go run ./cmd/web/
 
 
 test:
-	@CONFIG_PATH=../../config/test.yaml go test ./tests/...
+	@CONFIG_PATH=../../../config/test.yaml go test ./tests/...

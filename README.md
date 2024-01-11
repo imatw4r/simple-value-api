@@ -54,17 +54,18 @@ I am consciously omiting things like:
 
 ```bash
 .
+├── LICENSE
 ├── Makefile
 ├── README.md
-├── api - HTTP application module
-├── common - Application shared objects
-├── cmd - Application entrypoint
-├── config - Application configuration files
-├── domain - Application business-related logic
-├── task - Task-related information
-|── tests - Application tests
-├── go.mod
-└── go.sum
+├── cmd - app entrypoint
+├── config - app config
+├── pkg - app packages
+│   ├── domain - business-related logic - it shoud be used
+│   └── http - HTTP interface package
+├── task
+│   ├── input.txt
+│   └── task.md
+└── tests
 ```
 
 
