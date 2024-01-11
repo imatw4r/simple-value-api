@@ -15,6 +15,12 @@ Installing dependency
 make install-dev
 ```
 
+Setting dev configuration
+
+```bash
+cp config/example.yaml config/dev.yaml
+```
+
 To start application
 
 ```bash
