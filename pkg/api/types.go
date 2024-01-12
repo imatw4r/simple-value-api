@@ -1,7 +1,7 @@
 package api
 
 type GetValueIndexRequest struct {
-	Value string `json:"value" uri:"value"`
+	Value string `json:"value" uri:"value" binding:"required"`
 }
 
 type GetValueIndexResponse struct {

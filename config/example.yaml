@@ -4,4 +4,4 @@ app:
   sourceFilepath: task/input.txt
 
 logging:
-  logLevel: DEBUG
+  logLevel: INFO
