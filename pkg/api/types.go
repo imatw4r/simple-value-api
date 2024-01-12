@@ -8,4 +8,5 @@ type GetValueIndexResponse struct {
 	Index        int    `json:"index"`
 	ErrorMessage string `json:"errorMessage"`
 	Value        int    `json:"value"`
+	Found        bool   `json:"found"`
 }

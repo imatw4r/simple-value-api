@@ -35,14 +35,14 @@ func (s *ValueService) IndexOf(value int) (Result, error) {
 
 	valueFound := 0 <= index && index < len(s.values) && s.values[index] == value
 	if valueFound {
-		return Result{Value: value, Index: index}, nil
+		return Result{Value: value, Index: index, Found: true}, nil
 	}
 
 	// Consider not found idx (-1) to be edge idx also
 	isLeftEdgeIdx := index <= 0
 	isRightEdgeIdx := index == len(s.values)
 
-	resultNotFound := Result{Value: -1, Index: -1}
+	resultNotFound := Result{Value: -1, Index: -1, Found: false}
 
 	if isLeftEdgeIdx {
 		// Check only right side
@@ -50,7 +50,7 @@ func (s *ValueService) IndexOf(value int) (Result, error) {
 		right_value := s.values[index+1]
 		if isAcceptableValue(value, right_value, s.acceptableDiffPercentage) {
 			log.Debugf("Final Index: %d", index+1)
-			return Result{Index: index + 1, Value: right_value}, nil
+			return Result{Index: index + 1, Value: right_value, Found: true}, nil
 		}
 		log.Debugf("Final Index: %d", resultNotFound.Index)
 		return resultNotFound, nil
@@ -60,7 +60,7 @@ func (s *ValueService) IndexOf(value int) (Result, error) {
 		left_value := s.values[index-1]
 		if isAcceptableValue(value, left_value, s.acceptableDiffPercentage) {
 			log.Debugf("Final Index: %d", index-1)
-			return Result{Index: index - 1, Value: left_value}, nil
+			return Result{Index: index - 1, Value: left_value, Found: true}, nil
 		}
 		log.Debugf("Final Index: %d", resultNotFound.Index)
 		return resultNotFound, nil
@@ -73,10 +73,10 @@ func (s *ValueService) IndexOf(value int) (Result, error) {
 
 	if isAcceptableValue(value, left_value, s.acceptableDiffPercentage) {
 		log.Debugf("Final Index: %d", index-1)
-		return Result{Index: index - 1, Value: left_value}, nil
+		return Result{Index: index - 1, Value: left_value, Found: true}, nil
 	} else if isAcceptableValue(value, right_value, s.acceptableDiffPercentage) {
 		log.Debugf("Final Index: %d", index)
-		return Result{Index: index, Value: right_value}, nil
+		return Result{Index: index, Value: right_value, Found: true}, nil
 	}
 
 	log.Debugf("Final Index: %d", resultNotFound.Index)

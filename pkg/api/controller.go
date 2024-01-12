@@ -29,6 +29,7 @@ func (vc *ValueController) GetValueIndex(c *gin.Context) {
 			Index:        -1,
 			Value:        -1,
 			ErrorMessage: errorMsg,
+			Found:        false,
 		}
 		c.JSON(http.StatusBadRequest, response)
 		return
@@ -45,6 +46,7 @@ func (vc *ValueController) GetValueIndex(c *gin.Context) {
 			Index:        -1,
 			Value:        -1,
 			ErrorMessage: errorMsg,
+			Found:        false,
 		}
 		c.JSON(http.StatusBadRequest, response)
 		return
@@ -59,6 +61,7 @@ func (vc *ValueController) GetValueIndex(c *gin.Context) {
 			Index:        -1,
 			Value:        -1,
 			ErrorMessage: errorMsg,
+			Found:        false,
 		}
 		c.JSON(http.StatusInternalServerError, response)
 		return
@@ -71,6 +74,7 @@ func (vc *ValueController) GetValueIndex(c *gin.Context) {
 			Index:        -1,
 			Value:        valueInt,
 			ErrorMessage: errorMsg,
+			Found:        false,
 		}
 		c.JSON(http.StatusOK, response)
 		return
@@ -81,6 +85,7 @@ func (vc *ValueController) GetValueIndex(c *gin.Context) {
 		Value:        result.Value,
 		Index:        result.Index,
 		ErrorMessage: "",
+		Found:        true,
 	}
 
 	c.JSON(http.StatusOK, response)

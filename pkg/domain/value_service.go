@@ -3,6 +3,7 @@ package domain
 type Result struct {
 	Value int
 	Index int
+	Found bool
 }
 
 // Interface for a domain-service
