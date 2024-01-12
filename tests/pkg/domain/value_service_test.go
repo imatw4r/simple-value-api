@@ -46,6 +46,7 @@ func (suite *ValueServiceSuite) TestValueServiceDirectValueMatch() {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Got Index %d, Expected %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Got Value %d, Expected %d", result.Value, tt.expectedValue))
+			assert.Equal(t, result.Found, true, fmt.Sprintf("Got Found %t, Expected %t", result.Found, true))
 		})
 	}
 }
@@ -67,6 +68,7 @@ func (suite *ValueServiceSuite) TestValueServiceAdjacentValueMatch() {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Receive Index: %d, Expected: %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Receive Value: %d, Expected: %d", result.Value, tt.expectedValue))
+			assert.Equal(t, result.Found, true, fmt.Sprintf("Got Found %t, Expected %t", result.Found, true))
 		})
 	}
 }
@@ -88,6 +90,7 @@ func (suite *ValueServiceSuite) TestValueServiceOnValueNotFound() {
 			result, _ := svc.IndexOf(tt.value)
 			assert.Equal(t, result.Index, tt.expectedIndex, fmt.Sprintf("Receive Index %d, Expected %d", result.Index, tt.expectedIndex))
 			assert.Equal(t, result.Value, tt.expectedValue, fmt.Sprintf("Receive Value %d, Expected %d", result.Value, tt.expectedValue))
+			assert.Equal(t, result.Found, false, fmt.Sprintf("Got Found %t, Expected %t", result.Found, false))
 		})
 	}
 }

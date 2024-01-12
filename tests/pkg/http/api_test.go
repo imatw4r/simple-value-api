@@ -47,6 +47,7 @@ func (suite *ValueAPISuite) TestGetValueIndexReturn200() {
 				ErrorMessage: "",
 				Value:        1000,
 				Index:        2,
+				Found:        true,
 			},
 		},
 		{
@@ -54,6 +55,7 @@ func (suite *ValueAPISuite) TestGetValueIndexReturn200() {
 				ErrorMessage: "",
 				Value:        1100,
 				Index:        4,
+				Found:        true,
 			},
 		},
 		{
@@ -61,6 +63,7 @@ func (suite *ValueAPISuite) TestGetValueIndexReturn200() {
 				ErrorMessage: "",
 				Value:        700,
 				Index:        0,
+				Found:        true,
 			},
 		},
 	}
@@ -96,6 +99,7 @@ func (suite *ValueAPISuite) TestGetValueIndexReturn400() {
 				ErrorMessage: "Value fasf is not a valid integer",
 				Value:        -1,
 				Index:        -1,
+				Found:        false,
 			},
 		},
 		{
@@ -103,6 +107,7 @@ func (suite *ValueAPISuite) TestGetValueIndexReturn400() {
 				ErrorMessage: "Value 11.41223.123 is not a valid integer",
 				Value:        -1,
 				Index:        -1,
+				Found:        false,
 			},
 		},
 	}
